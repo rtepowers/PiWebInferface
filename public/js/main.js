@@ -4,8 +4,8 @@
 var app = new Marionette.Application();
 
 app.addRegions({
-    appRegion: '#app',
-    modalRegion: '#modal'
+    appRegion: '#rasp-main',
+    menuRegion: '#rasp-menu'
 });
 
 app.Router = Marionette.AppRouter.extend({
