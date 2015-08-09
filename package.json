@@ -2,7 +2,7 @@
   "name": "RaspberryWeb",
   "version": "1.0.0",
   "description": "Raspberry Pi Web Interface Starter",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,10 +10,14 @@
     "RaspberryPi"
   ],
   "author": "Ray Powers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtepowers/PiWebInferface.git"
+  },
   "license": "ISC",
   "dependencies": {
     "compression": "^1.5.2",
     "express": "^4.13.3",
-    "handlebars": "^3.0.3"
+    "express-handlebars": "^2.0.1"
   }
 }
