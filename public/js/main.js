@@ -1,19 +1,18 @@
 /**
  * Created by raypowers on 8/8/15.
  */
-var app = Marionette.Application.extend({
-    initialize: function (options) {
-        console.log('Rapberry Pi Web Interface Loaded');
-        console.log('Marionette application started');
-    }
+var app = new Marionette.Application();
+
+app.RaspView = Marionette.ItemView.extend({
+    el: '#rasp-main',
+    template: '#main-region-template'
 });
 
-app = new app({container: '#app' });
-
-app.on('start', function (options) {
-    if (Backbone.history) {
-        Backbone.history.start();
-    }
+app.on('start', function(options) {
+    Backbone.history.start();
+    console.log('Application Started');
+    var raspView = new app.RaspView();
+    raspView.render();
 });
 
-app.start();
+$(document).ready(function() {app.start();});
