@@ -1,6 +1,7 @@
 # Emacs Temp Files
 *~
 node_modules/
+.idea/
 
 # Logs
 logs
