@@ -24,6 +24,10 @@ router.get('/', function (req, res) {
     res.render('index');
 });
 
+router.get('/test', function(req, res) {
+    res.render('testMain', {layout: 'test' });
+});
+
 // Register Routes
 app.use(router);
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: ONE_DAY }));
