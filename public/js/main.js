@@ -3,16 +3,39 @@
  */
 var app = new Marionette.Application();
 
+app.addRegions({
+    appRegion: '#app',
+    modalRegion: '#modal'
+});
+
+app.Router = Marionette.AppRouter.extend({
+    appRoutes: {
+        '': 'index'
+    }
+});
+
+app.Controller = Marionette.Controller.extend({
+    index: function() {
+        var view = new app.RaspView();
+        app.appRegion.show(view);
+    }
+});
+
 app.RaspView = Marionette.ItemView.extend({
-    el: '#rasp-main',
     template: '#main-region-template'
 });
 
 app.on('start', function(options) {
-    Backbone.history.start();
+
+    // Build Regions
     console.log('Application Started');
-    var raspView = new app.RaspView();
-    raspView.render();
+    app.controller = new app.Controller();
+    app.router = new app.Router({
+        controller: app.controller
+    });
+
+    // Start tracking history
+    Backbone.history.start();
 });
 
 $(document).ready(function() {app.start();});
