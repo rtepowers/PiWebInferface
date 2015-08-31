@@ -1,0 +1,25 @@
+{
+  "name": "RaspberryWeb",
+  "version": "1.0.0",
+  "description": "This is a web interface for the Raspberry PI",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtepowers/PiWebInferface.git"
+  },
+  "keywords": [
+    "RaspberryPi"
+  ],
+  "author": "Ray Powers",
+  "license": "GNU General Public License",
+  "bugs": {
+    "url": "https://github.com/rtepowers/PiWebInferface/issues"
+  },
+  "homepage": "https://github.com/rtepowers/PiWebInferface",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
