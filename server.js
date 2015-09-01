@@ -13,20 +13,29 @@ var http = require('http').Server(app),
 app.use(express.static('public'));
 
 
-// Users
-var userCount = 0;
+// Pin Control
+var GPIO = require('onoff').Gpio,
+    blue = new GPIO(22, 'out'),
+    green = new GPIO(27, 'out'),
+    red  = new GPIO(17, 'out');
+
 var pinSettings = {
                     pin17: false,
                     pin22: false,
                     pin27: false
                 };
 
+function updateLED() {
+    red.writeSync(pinSettings['pin17'] ? 1 : 0 );
+    green.writeSync(pinSettings['pin27'] ? 1 : 0 );
+    blue.writeSync(pinSettings['pin22'] ? 1 : 0 );
+}
+
+
 io.on('connection', function(socket) {
-    userCount++;
-    console.log('User connected: ' + userCount);
+    console.log('User connected');
     socket.on('disconnect', function() {
         console.log('User Disconnected');
-        userCount--;
     });
     socket.on('turn on', function(pinID) {
         console.log('Turning On: ' + pinID);
@@ -34,6 +43,7 @@ io.on('connection', function(socket) {
             pinSettings[pinID] = true;
         }
         io.emit('pin status', {id: pinID, isOn: true });
+        updateLED();
     });
     socket.on('turn off', function(pinID) {
         console.log('Turning Off: ' + pinID);
@@ -41,6 +51,7 @@ io.on('connection', function(socket) {
             pinSettings[pinID] = false;
         }
         io.emit('pin status', {id: pinID, isOn: false });
+        updateLED();
     });
 });
 
