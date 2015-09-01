@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Raspberry Pi Web Interface</title>
+    <script src="js/socket.io-1.3.5.js"></script>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <style>
+        .off {
+            background-color: slategray;
+            max-width: 150px;
+        }
+        .on {
+            background-color: lightgreen;
+            max-width: 150px;
+        }
+        .redDriver {
+            background-color: red;
+        }
+        .greenDriver {
+            background-color: green;
+        }
+        .blueDriver {
+            background-color: cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        <li id="pin17" class="off"><button class="redDriver">Pin 17</button></li>
+        <li id="pin27" class="off"><button class="greenDriver">Pin 27</button></li>
+        <li id="pin22" class="off"><button class="blueDriver">Pin 22</button></li>
+    </ul>
+</div>
+<script>
+    var socket = io();
+
+    socket.on('pin status', function(led) {
+        var pin = $('#'+ led.id);
+        if (led.isOn) {
+            pin.removeClass('off').addClass('on');
+        } else {
+            pin.removeClass('on').addClass('off');
+        }
+    });
+
+    function handleClick(pinID) {
+        var parent = $('#'+pinID);
+        if (parent.hasClass('off')) {
+            socket.emit('turn on', pinID);
+        } else {
+            socket.emit('turn off', pinID);
+        }
+    }
+
+    $('.redDriver').click(function() {
+        handleClick('pin17');
+    });
+    $('.greenDriver').click(function() {
+        handleClick('pin27');
+    });
+    $('.blueDriver').click(function() {
+        handleClick('pin22');
+    });
+
+</script>
+</body>
+</html>

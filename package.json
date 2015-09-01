@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/rtepowers/PiWebInferface",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "socket.io": "^1.3.6"
   }
 }

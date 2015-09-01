@@ -1,16 +1,49 @@
-var express = require('express');
-var app = express();
+// AUTHOR: Ray Powers, August 2015
 
-app.get('/', function(req, res) {
-    res.send('Raspberry Pi Web Interface');
-});
+// Regular Site
+var express = require('express'),
+    app = express(),
+    port = 12006;
+
+// Web Sockets
+var http = require('http').Server(app),
+    io = require('socket.io')(http);
 
 // Server Static Files
 app.use(express.static('public'));
 
-var server = app.listen(12006, function() {
-    var host = server.address().address,
-        port = server.address().port;
 
-    console.log('Now listening to http://' + host + ':' + port);
+// Users
+var userCount = 0;
+var pinSettings = {
+                    pin17: false,
+                    pin22: false,
+                    pin27: false
+                };
+
+io.on('connection', function(socket) {
+    userCount++;
+    console.log('User connected: ' + userCount);
+    socket.on('disconnect', function() {
+        console.log('User Disconnected');
+        userCount--;
+    });
+    socket.on('turn on', function(pinID) {
+        console.log('Turning On: ' + pinID);
+        if (!pinSettings[pinID]) {
+            pinSettings[pinID] = true;
+        }
+        io.emit('pin status', {id: pinID, isOn: true });
+    });
+    socket.on('turn off', function(pinID) {
+        console.log('Turning Off: ' + pinID);
+        if (pinSettings[pinID]) {
+            pinSettings[pinID] = false;
+        }
+        io.emit('pin status', {id: pinID, isOn: false });
+    });
+});
+
+http.listen(port, function() {
+    console.log('Now listening to port: ' + port);
 });
