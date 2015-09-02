@@ -14,6 +14,14 @@
             background-color: lightgreen;
             max-width: 150px;
         }
+        .pull-right {
+            float: right;
+            width: 150px;
+        }
+        .pull-left {
+            float: left;
+            width: 150px;
+        }
         .redDriver {
             background-color: red;
         }
@@ -26,11 +34,41 @@
     </style>
 </head>
 <body>
+<header>
+    <h2>Raspberry Pi Web Interface</h2>
+</header>
 <div>
-    <ul>
+    <ul class="pull-left">
+        <li>Pin 2 (SDA)</li>
+        <li>Pin 3 (SCL)</li>
+        <li>Pin 4 (GPCLK0)</li>
         <li id="pin17" class="off"><button class="redDriver">Pin 17</button></li>
         <li id="pin27" class="off"><button class="greenDriver">Pin 27</button></li>
         <li id="pin22" class="off"><button class="blueDriver">Pin 22</button></li>
+        <li>Pin 10 (MOSI)</li>
+        <li>Pin 9 (MISO)</li>
+        <li>Pin 11 (SCLK)</li>
+        <li>Pin 0 (ID_SD)</li>
+        <li>Pin 5</li>
+        <li>Pin 6</li>
+        <li>Pin 13</li>
+        <li>Pin 19 (MISO)</li>
+        <li>Pin 26</li>
+    </ul>
+    <ul class="pull-right">
+        <li>Pin 14 (TXD)</li>
+        <li>Pin 15 (RXD)</li>
+        <li>Pin 18 (PCM_C)</li>
+        <li>Pin 23</li>
+        <li>Pin 24</li>
+        <li>Pin 25</li>
+        <li>Pin 8 (CE0)</li>
+        <li>Pin 7 (CE1></li>
+        <li>Pin 1 (ID_SC)</li>
+        <li>Pin 12</li>
+        <li>Pin 16</li>
+        <li>Pin 20 (MOSI)</li>
+        <li>Pin 21 (SCLK)</li>
     </ul>
 </div>
 <script>
