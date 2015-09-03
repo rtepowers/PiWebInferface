@@ -58,7 +58,7 @@
     <ul class="pull-right">
         <li>Pin 14 (TXD)</li>
         <li>Pin 15 (RXD)</li>
-        <li>Pin 18 (PCM_C)</li>
+        <li id="pin18" class="off"><button>Pin 18</button></li>
         <li>Pin 23</li>
         <li>Pin 24</li>
         <li>Pin 25</li>
@@ -71,15 +71,26 @@
         <li>Pin 21 (SCLK)</li>
     </ul>
 </div>
+<div>
+    <h5>Input Received:</h5>
+    <span id="input"></span>
+</div>
 <script>
     var socket = io();
 
-    socket.on('pin status', function(led) {
-        var pin = $('#'+ led.id);
-        if (led.isOn) {
-            pin.removeClass('off').addClass('on');
+    socket.on('pin status', function(pin) {
+        var pinEl = $('#'+ pin.id);
+        if (pin.isOn) {
+            pinEl.removeClass('off').addClass('on');
         } else {
-            pin.removeClass('on').addClass('off');
+            pinEl.removeClass('on').addClass('off');
+        }
+        if (pin.isInput) {
+            if (pin.isOn) {
+                $('#input').text('Motion Detected!');
+            } else {
+                $('#input').text('--');
+            }
         }
     });
 

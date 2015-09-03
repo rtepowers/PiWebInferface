@@ -18,13 +18,13 @@ var GPIO = require('onoff').Gpio,
     blue = new GPIO(22, 'out'),
     green = new GPIO(27, 'out'),
     red  = new GPIO(17, 'out'),
-    pir = new GPIO(18, 'in', 'rising');
+    pir = new GPIO(18, 'in', 'both');
 
 var pinSettings = {
                     pin17: false,
                     pin22: false,
                     pin27: false,
-		    pin18: false
+                    pin18: false
                 };
 
 function updateLED() {
@@ -44,7 +44,7 @@ io.on('connection', function(socket) {
         if (!pinSettings[pinID]) {
             pinSettings[pinID] = true;
         }
-        io.emit('pin status', {id: pinID, isOn: true });
+        io.emit('pin status', {id: pinID, isInput: false, isOn: true });
         updateLED();
     });
     socket.on('turn off', function(pinID) {
@@ -52,7 +52,7 @@ io.on('connection', function(socket) {
         if (pinSettings[pinID]) {
             pinSettings[pinID] = false;
         }
-        io.emit('pin status', {id: pinID, isOn: false });
+        io.emit('pin status', {id: pinID, isInput: false, isOn: false });
         updateLED();
     });
 });
@@ -62,8 +62,8 @@ pir.watch(function(err, value) {
         throw err;
     }
 
-    console.log('Motion Detected!');
-    io.emit('pin status', {id: 'pin18', isOn: value });
+    console.log('Motion has ' + (value) ? 'started' : 'stopped');
+    io.emit('pin status', {id: 'pin18', isInput: true, isOn: value });
 });
 
 http.listen(port, function() {
