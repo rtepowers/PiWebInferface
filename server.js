@@ -58,3 +58,11 @@ io.on('connection', function(socket) {
 http.listen(port, function() {
     console.log('Now listening to port: ' + port);
 });
+
+function exit() {
+    blue.unexport();
+    green.unexport();
+    red.unexport();
+    process.exit();
+}
+process.on('SIGINT', exit);
