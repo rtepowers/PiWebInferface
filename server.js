@@ -17,12 +17,14 @@ app.use(express.static('public'));
 var GPIO = require('onoff').Gpio,
     blue = new GPIO(22, 'out'),
     green = new GPIO(27, 'out'),
-    red  = new GPIO(17, 'out');
+    red  = new GPIO(17, 'out'),
+    pir = new GPIO(18, 'in', 'rising');
 
 var pinSettings = {
                     pin17: false,
                     pin22: false,
-                    pin27: false
+                    pin27: false,
+		    pin18: false
                 };
 
 function updateLED() {
@@ -55,6 +57,15 @@ io.on('connection', function(socket) {
     });
 });
 
+pir.watch(function(err, value) {
+    if (err) {
+        throw err;
+    }
+
+    console.log('Motion Detected!');
+    io.emit('pin status', {id: 'pin18', isOn: value });
+});
+
 http.listen(port, function() {
     console.log('Now listening to port: ' + port);
 });
@@ -63,6 +74,7 @@ function exit() {
     blue.unexport();
     green.unexport();
     red.unexport();
+    pir.unexport();
     process.exit();
 }
 process.on('SIGINT', exit);
