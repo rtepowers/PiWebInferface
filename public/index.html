@@ -31,13 +31,16 @@
         .blueDriver {
             background-color: cornflowerblue;
         }
+        .blocks {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 <header>
     <h2>Raspberry Pi Web Interface</h2>
 </header>
-<div>
+<div class="blocks">
     <ul class="pull-left">
         <li>Pin 2 (SDA)</li>
         <li>Pin 3 (SCL)</li>
@@ -72,8 +75,8 @@
     </ul>
 </div>
 <div>
-    <h5>Input Received:</h5>
-    <span id="input"></span>
+    <h3>Input Received:</h3>
+    <span id="input">--</span>
 </div>
 <script>
     var socket = io();

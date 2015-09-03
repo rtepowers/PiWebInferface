@@ -62,7 +62,8 @@ pir.watch(function(err, value) {
         throw err;
     }
 
-    console.log('Motion has ' + (value) ? 'started' : 'stopped');
+    var status = 'Motion has ' + ((value) ? 'started' : 'stopped');
+    console.log(status);
     io.emit('pin status', {id: 'pin18', isInput: true, isOn: value });
 });
 
