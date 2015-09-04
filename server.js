@@ -78,7 +78,7 @@ var dht_sensor = {
     read: function() {
         var readout = sensorLib.read(),
             temp = readout.temperature * (9 / 5) + 32;
-        io.emit('temp update', {temp: temp.toFixed(2) + ' F', humidity: readout.humidity + ' %'});
+        io.emit('temp update', {temp: temp.toFixed(1) + ' F', humidity: readout.humidity + ' %'});
         setTimeout(function () {
             dht_sensor.read();
         }, 2000);
