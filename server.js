@@ -24,7 +24,8 @@ var pinSettings = {
                     pin17: false,
                     pin22: false,
                     pin27: false,
-                    pin18: false
+                    pin18: false,
+                    pin4: false
                 };
 
 function updateLED() {
@@ -66,6 +67,29 @@ pir.watch(function(err, value) {
     console.log(status);
     io.emit('pin status', {id: 'pin18', isInput: true, isOn: value });
 });
+
+// Temperature Control
+var sensorLib = require('node-dht-sensor');
+
+var dht_sensor = {
+    initialize: function() {
+        return sensorLib.initialize(11, 4);
+    },
+    read: function() {
+        var readout = sensorLib.read(),
+            temp = readout.temperature * (9 / 5) + 32;
+        io.emit('temp update', {temp: temp.toFixed(2) + ' F', humidity: readout.humidity + ' %'});
+        setTimeout(function () {
+            dht_sensor.read();
+        }, 2000);
+    }
+};
+
+if (dht_sensor.initialize()) {
+    dht_sensor.read();
+} else {
+    console.warn('Failed to initialize temp sensor');
+}
 
 http.listen(port, function() {
     console.log('Now listening to port: ' + port);

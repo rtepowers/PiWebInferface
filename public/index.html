@@ -82,6 +82,7 @@
         </div>
         <div>
             <h3>Input Received:</h3>
+            <span id="temp"></span>
             <span id="input">--</span>
         </div>
     </div>
@@ -106,6 +107,10 @@
                 $('#input').text('--');
             }
         }
+    });
+
+    socket.on('temp update', function(data) {
+        var tempEl = $('#temp').text(data.temp + ', ' + data.humidity);
     });
 
     function handleClick(pinID) {
