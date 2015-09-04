@@ -2,9 +2,12 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=ege">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Raspberry Pi Web Interface</title>
-    <script src="js/socket.io-1.3.5.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         .off {
             background-color: slategray;
@@ -14,70 +17,78 @@
             background-color: lightgreen;
             max-width: 150px;
         }
-        .pull-right {
-            float: right;
-            width: 150px;
-        }
-        .pull-left {
-            float: left;
-            width: 150px;
-        }
-        .redDriver {
-            background-color: red;
-        }
-        .greenDriver {
-            background-color: green;
-        }
-        .blueDriver {
-            background-color: cornflowerblue;
-        }
         .blocks {
             display: inline-block;
+        }
+        .piImage {
+            width: 21px;
+            height: 25px;
         }
     </style>
 </head>
 <body>
-<header>
-    <h2>Raspberry Pi Web Interface</h2>
-</header>
-<div class="blocks">
-    <ul class="pull-left">
-        <li>Pin 2 (SDA)</li>
-        <li>Pin 3 (SCL)</li>
-        <li>Pin 4 (GPCLK0)</li>
-        <li id="pin17" class="off"><button class="redDriver">Pin 17</button></li>
-        <li id="pin27" class="off"><button class="greenDriver">Pin 27</button></li>
-        <li id="pin22" class="off"><button class="blueDriver">Pin 22</button></li>
-        <li>Pin 10 (MOSI)</li>
-        <li>Pin 9 (MISO)</li>
-        <li>Pin 11 (SCLK)</li>
-        <li>Pin 0 (ID_SD)</li>
-        <li>Pin 5</li>
-        <li>Pin 6</li>
-        <li>Pin 13</li>
-        <li>Pin 19 (MISO)</li>
-        <li>Pin 26</li>
-    </ul>
-    <ul class="pull-right">
-        <li>Pin 14 (TXD)</li>
-        <li>Pin 15 (RXD)</li>
-        <li id="pin18" class="off"><button>Pin 18</button></li>
-        <li>Pin 23</li>
-        <li>Pin 24</li>
-        <li>Pin 25</li>
-        <li>Pin 8 (CE0)</li>
-        <li>Pin 7 (CE1></li>
-        <li>Pin 1 (ID_SC)</li>
-        <li>Pin 12</li>
-        <li>Pin 16</li>
-        <li>Pin 20 (MOSI)</li>
-        <li>Pin 21 (SCLK)</li>
-    </ul>
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Nav</span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img class="piImage" alt="Raspberry Pi" src="img/piImage.png"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">GPIO</a></li>
+                <li><a href="https://www.raspberrypi.org/help/faqs/">Learn More</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+        <div class="blocks">
+            <ul class="pull-left">
+                <li>Pin 2 (SDA)</li>
+                <li>Pin 3 (SCL)</li>
+                <li>Pin 4 (GPCLK0)</li>
+                <li id="pin17" class="off"><button class="btn btn-danger btn-sm">Pin 17</button></li>
+                <li id="pin27" class="off"><button class="btn btn-success btn-sm">Pin 27</button></li>
+                <li id="pin22" class="off"><button class="btn btn-primary btn-sm">Pin 22</button></li>
+                <li>Pin 10 (MOSI)</li>
+                <li>Pin 9 (MISO)</li>
+                <li>Pin 11 (SCLK)</li>
+                <li>Pin 0 (ID_SD)</li>
+                <li>Pin 5</li>
+                <li>Pin 6</li>
+                <li>Pin 13</li>
+                <li>Pin 19 (MISO)</li>
+                <li>Pin 26</li>
+            </ul>
+            <ul class="pull-right">
+                <li>Pin 14 (TXD)</li>
+                <li>Pin 15 (RXD)</li>
+                <li id="pin18" class="off"><button class="btn btn-default btn-sm">Pin 18</button></li>
+                <li>Pin 23</li>
+                <li>Pin 24</li>
+                <li>Pin 25</li>
+                <li>Pin 8 (CE0)</li>
+                <li>Pin 7 (CE1></li>
+                <li>Pin 1 (ID_SC)</li>
+                <li>Pin 12</li>
+                <li>Pin 16</li>
+                <li>Pin 20 (MOSI)</li>
+                <li>Pin 21 (SCLK)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Input Received:</h3>
+            <span id="input">--</span>
+        </div>
+    </div>
 </div>
-<div>
-    <h3>Input Received:</h3>
-    <span id="input">--</span>
-</div>
+<script src="js/socket.io-1.3.5.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script>
     var socket = io();
 
@@ -106,13 +117,13 @@
         }
     }
 
-    $('.redDriver').click(function() {
+    $('#pin17').click(function() {
         handleClick('pin17');
     });
-    $('.greenDriver').click(function() {
+    $('#pin27').click(function() {
         handleClick('pin27');
     });
-    $('.blueDriver').click(function() {
+    $('#pin22').click(function() {
         handleClick('pin22');
     });
 
